@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# This is the user-interface definition of a Shiny web application. You can\n# run the application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nlibrary(shinyjs)\n\n# Define UI for application that draws a histogram\nshinyUI(fluidPage(\n  shinyjs::useShinyjs(),\n  # Application title\n  titlePanel(\"K Means Clustering\"),\n  \n  #\n  \n  # Sidebar with a slider input for number of clusters \n  sidebarLayout(\n    sidebarPanel(\n      \n      sliderInput(\"slidePoints\", label = h3(\"Number of Points\"), min = 20, max = 50, step =  5, value = 20),\n      \n      actionButton(\"btnGenerate\", label = \"Generate Random Data\"),\n      \n      hr(),\n      \n      sliderInput(\"slideClusters\", label = h3(\"Number of Clusters\"), min = 2, max = 10, value = 3),\n      \n      checkboxGroupInput(\"configuration\", \"Configuration:\",\n                         c(\"Centroids\" = \"centroids\",\n                           \"Area\" = \"area\")),\n      \n      disabled(actionButton(\"btnCluster\", label = \"Make Clusters\")),\n      \n      hr(),\n      \n      helpText(\"Note: You can add more points by clicking on the plot.\")\n      \n    ),\n    \n    # Show a plot of the generated distribution\n    mainPanel(\n      \n      tabsetPanel( type = \"tabs\",\n                   tabPanel(\"K-Means\", plotOutput(\"resultPlot\", click = \"plotClick\")),\n                   tabPanel(\"Help\",\n                            h2(\"Documentation\"),\n                            p(\"To use this application, take these steps:\"),\n                            HTML(\"<ol>\n                                    <li>\n                                        Generate random points by pressing <b>Generate Random Points</b> button. \n                                        It will generate the number of points specified at <b>Number of points</b> slider.\n                                    </li>\n                                    <li>\n                                        Select the configuration for plotting the clusters. Chose the number of cluster at \n                                        <b>Number of clusters</b> slider. Check centroids checkbox to display the centers for\n                                        each cluster. Check area checkbox to display the areas that wrap all points which belong to a cluster.\n                                    </li>\n                                    <li>\n                                        Build the plot with its configuration pressing <b>Make Clusters</b> button.\n                                    </li>\n                                 </ol>\")\n                            )\n        \n      )\n       \n    )\n  )\n))\n",
+    "created" : 1577312687635.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1576889167",
+    "id" : "D9ABB4CB",
+    "lastKnownWriteTime" : 1578268573,
+    "last_content_update" : 1578268573221,
+    "path" : "C:/Users/yadde/Documents/Developing Data Products Assignment/ShinnyApplication/ui.R",
+    "project_path" : "ShinnyApplication/ui.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"K-Means Demo\"\nauthor: \"Yadder Aceituno\"\ndate: \"December 25, 2019\"\noutput: ioslides_presentation\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = FALSE, fig.width = 6, fig.height = 3)\n\nlibrary(ggplot2);\nlibrary(plyr);\n```\n\n## Summary\n\nClustering is one of the most data exploratory analysis used to get a insights from data. It helps to identify subgroups that can help us to identify how the data is structured.\n\nKmeans is an algorithm that tries to split the dataset into K pre-defined distinct groups (non-overlaping), which are called clusters.\n\nUsing the application we can create a random dataset and then running the k-means algorithm to see how the data is clusterized. We can visualize the plot to learn how the different clusters, its centroids and its points are created.\n\n## Configuration Panel\n\nTo build the plot, we have the folowing options:\n\n- Slider for Number of Points: to define how many points will be generated randomly.\n- Button to generate random data: to generate 20 random points.\n- Slider for Number of Clusters: to define how many clusters to show.\n- Checkbox for configuration: to enable/disable centroids and areas.\n- Button to build clusters: to build the clusters with k-mean algorithm.\n\n## Random DataSet\n\nWe can create a random dataset with 20 (default) or more points by pressing the **Generate Random Points** button. It will execute the next code:\n\n```{r random_code, echo = TRUE, eval=FALSE}\nqtyPoints <- input$slidePoints;\ndfData <- data.frame( x = runif(qtyPoints, min = 0, max = 100), \n                    y = runif(qtyPoints, min = 0, max = 100));\n```\n\n```{r random_plot, echo = FALSE}\nqtyPoints <- 20;\ndfData <- data.frame( x = runif(qtyPoints, min = 0, max = 100), \n                    y = runif(qtyPoints, min = 0, max = 100));\n\nmyPlot <- ggplot(mapping = aes(x = x, y = y));\nmyPlot <- myPlot + geom_point(dfData, size = 3.5, mapping = aes());\n\n# Setting axis limits\nmyPlot <-  myPlot +\n  theme(legend.position = \"none\") +\n  xlim(0, 105) +\n  ylim(0, 105);\n\nmyPlot;\n```\n\n## Making Clusters\n\nBy pressing **Make Clusters** button, it will execute the kmeans algorithm on the data and then will plot the clusters (according configuration).\n\n```{r kmeans_code, echo=TRUE, eval=FALSE}\nobjCluster <- kmeans(dfData, centers = input$slideClusters);\n```\n\n```{r kmeans_plot, echo=FALSE}\nqtyClusters <- 3\n\nobjCluster <- kmeans(dfData, centers = qtyClusters)\n\ncolors <- c(\"#550000\", \"#D46A6A\",\n              \"#FFD1AA\", \"#804515\",\n              \"#116611\", \"#88CC88\",\n              \"#003333\", \"#407F7F\",\n              \"#D4D369\", \"#555500\");\n\nmyPlot <- ggplot(mapping = aes(x = x, y = y));\n\n# Setting points\nmyPlot <- myPlot + geom_point(dfData, size = 3, mapping = aes(color = as.factor(objCluster$cluster))) +\n        scale_colour_manual(values = colors[1:qtyClusters]);\n\ndfData$cluster <- objCluster$cluster;\n\n# Calculating areas\nfncFindHull <- function(dfTemp) dfTemp[chull(dfTemp$x, dfTemp$y), ];\nhulls <- ddply(dfData, \"cluster\", fncFindHull);\n\n# Plotting areas.\nmyPlot <- myPlot + geom_polygon(data = hulls, alpha = 0.5, aes(colour = as.factor(cluster), fill = as.factor(cluster))) + \n  scale_fill_manual(values = colors[1:qtyClusters]);\n\n# Plotting centers\nmyPlot <- myPlot + geom_point(data.frame(objCluster$centers), shape = 4, size = 3.5, mapping = aes());\n\n# Setting axis limits\nmyPlot <-  myPlot +\n      theme(legend.position = \"none\") +\n      xlim(0, 105) +\n      ylim(0, 105);\n\nmyPlot;\n\n```\n\n",
+    "created" : 1577311193169.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3903369616",
+    "id" : "603DE0B4",
+    "lastKnownWriteTime" : 1578264250,
+    "last_content_update" : 1578264250055,
+    "path" : "C:/Users/yadde/Documents/Developing Data Products Assignment/IOSlidesPresentation/IOSlidePresentation.Rmd",
+    "project_path" : "IOSlidesPresentation/IOSlidePresentation.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
